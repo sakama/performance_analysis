@@ -2,5 +2,6 @@
   This view is used to render the installed plugins page.
 -->
 <div>
-  This plugin is a sample to explain how to write a Jenkins plugin.
+  <p>このプラグインではJenkinsと<a href="http://jmeter.apache.org/" target="_blank">Apache JMeter</a>を使った負荷テストを実行し、その結果をレポートとして表示することができます。</p>
+  <p>レポート画面ではApache Jmeterの測定結果、<a href="http://www.percona.com/software/percona-toolkit" target="_blank">Percona-Toolkit</a>の<a href="http://www.percona.com/doc/percona-toolkit/2.1/pt-query-digest.html">pt-query-digest</a>コマンドの実行結果によるMySQLのSlow Query Logのサマリーを閲覧することができます。</p>
 </div>

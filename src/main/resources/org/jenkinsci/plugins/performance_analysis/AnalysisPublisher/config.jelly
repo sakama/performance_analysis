@@ -1,0 +1,11 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <!--
+    設定画面に表示される設定欄
+    Percona-Toolkitのpt-query-digestコマンドの実行結果ファイルのパスを入力させる
+  -->
+  <f:section title="Percona-Toolkitのpt-query-digestコマンドの実行結果ファイル">
+    <f:entry title="" field="ptpath">
+      <f:textbox />
+    </f:entry>
+  </f:section>
+</j:jelly>
