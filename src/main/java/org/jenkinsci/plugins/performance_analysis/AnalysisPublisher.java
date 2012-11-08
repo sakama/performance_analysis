@@ -8,6 +8,7 @@ import hudson.model.Descriptor;
 import hudson.model.Result;
 import hudson.tasks.Publisher;
 import hudson.tasks.BuildStepMonitor;
+import org.kohsuke.stapler.DataBoundConstructor;
 
 import java.io.IOException;
 
@@ -18,8 +19,16 @@ import org.kohsuke.stapler.StaplerRequest;
  * @author Satoshi Akama
  */
 public class AnalysisPublisher extends Publisher {
+    
+    private final String ptpath;
 
-    AnalysisPublisher() {
+    @DataBoundConstructor
+    public AnalysisPublisher(String ptpath) {
+        this.ptpath = ptpath;
+    }
+    
+    public String getPtpath() {
+        return this.ptpath;
     }
 
     /**
@@ -50,11 +59,6 @@ public class AnalysisPublisher extends Publisher {
         @Override
         public String getDisplayName() {
             return "Performance Analysis";
-        }
-
-        @Override
-        public AnalysisPublisher newInstance(StaplerRequest req) throws FormException {
-            return new AnalysisPublisher();
         }
     }
 
