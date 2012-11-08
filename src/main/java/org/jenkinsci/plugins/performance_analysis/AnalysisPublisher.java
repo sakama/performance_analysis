@@ -26,8 +26,7 @@ public class AnalysisPublisher extends Publisher {
      * ビルド後に実施する処理を記述
      */
     @Override
-    public boolean perform(AbstractBuild build, Launcher launcher,
-            BuildListener listener) throws InterruptedException, IOException {
+    public boolean perform(AbstractBuild build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
         AnalysisAction act = new AnalysisAction(build);
 
         // ビルド結果にAnalysisActionインスタンスを追加
@@ -54,8 +53,7 @@ public class AnalysisPublisher extends Publisher {
         }
 
         @Override
-        public AnalysisPublisher newInstance(StaplerRequest req)
-                throws FormException {
+        public AnalysisPublisher newInstance(StaplerRequest req) throws FormException {
             return new AnalysisPublisher();
         }
     }
