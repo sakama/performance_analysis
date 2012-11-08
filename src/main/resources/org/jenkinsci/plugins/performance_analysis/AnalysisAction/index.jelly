@@ -7,7 +7,7 @@
       <script type="text/javascript" src="/plugin/performance_analysis/script/jquery.min.js"></script>
       <script type="text/javascript" src="/plugin/performance_analysis/script/jqplot/jquery.jqplot.min.js"></script>
       <div id="pa-container">
-          
+          ${it.ptdump}
       </div>
     </l:main-panel>
   </l:layout>
