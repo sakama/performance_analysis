@@ -2,78 +2,12 @@
   <l:layout>
     <st:include it="${it.owner}" page="sidepanel.jelly" />
     <l:main-panel>
+      <link rel="stylesheet" href="/plugin/performance_analysis/css/style.css" />
       <link rel="stylesheet" href="/plugin/performance_analysis/script/jqplot/jquery.jqplot.css" />
       <script type="text/javascript" src="/plugin/performance_analysis/script/jquery.min.js"></script>
       <script type="text/javascript" src="/plugin/performance_analysis/script/jqplot/jquery.jqplot.min.js"></script>
       <div id="pa-container">
-          <!--
-          <h1>Summary of MySQL Slow Query Log</h1>
-          <ul>
-              <li>ホスト名：localhost.localdomain</li>
-          </ul>
-          <h2>概要</h2>
-          <p>3QPS</p>
-          <table class="sortable source">
-            <thead>
-                <tr>
-                  <th>項目</th>
-                  <th>Min</th>
-                  <th>Max</th>
-                  <th>平均</th>
-                  <th>95%</5h>
-                  <th>stddev</th>
-                  <th>中央値</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th>実行時間</th>
-                    <td>3370s</td>
-                    <td>3s</td>
-                    <td>277s</td>
-                    <td>11s</td>
-                    <td>23s</td>
-                    <td>18s</td>
-                    <td>7s</td>
-                </tr>
-                <tr>
-                    <th>ロック時間</th>
-                    <td>3370s</td>
-                    <td>3s</td>
-                    <td>277s</td>
-                    <td>11s</td>
-                    <td>23s</td>
-                    <td>18s</td>
-                    <td>7s</td>
-                </tr>
-            </tbody>
-          </table>
-          <h2>クエリ分析</h2>
-          <table>
-              <thead>
-                  <tr>
-                      <th>Rank</th>
-                      <th>Response Time</th>
-                      <th>呼び出し回数</th>
-                      <th>Apdx</th>
-                      <th>V/M</th>
-                  </tr>
-              <tbody>
-                  <tr>
-                      <td>1</td>
-                      <td>2498秒</td>
-                      <td>186</td>
-                      <td>0.17</td>
-                      <td>37.27</td>
-                  </tr>
-                  <tr>
-                      <td colspan="5">
-                          SELECT dtb_products...
-                      </td>
-                  </tr>
-              </tbody>
-          </table>
-          -->
+          
       </div>
     </l:main-panel>
   </l:layout>
