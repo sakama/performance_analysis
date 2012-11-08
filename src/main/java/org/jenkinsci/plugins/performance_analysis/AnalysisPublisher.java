@@ -48,10 +48,12 @@ public class AnalysisPublisher extends Publisher {
             super(AnalysisPublisher.class);
         }
 
+        @Override
         public String getDisplayName() {
             return "Performance Analysis";
         }
 
+        @Override
         public AnalysisPublisher newInstance(StaplerRequest req)
                 throws FormException {
             return new AnalysisPublisher();
