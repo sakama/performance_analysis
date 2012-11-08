@@ -19,16 +19,19 @@ public class AnalysisAction implements Action {
         this.owner = owner;
     }
 
+    //左メニューの表示名
     public String getDisplayName() {
         return "Performance Analysis";
     }
 
+    //左メニューアイコン
     public String getIconFileName() {
         return "/plugin/performance_analysis/images/icon.png";
     }
 
+    //URLに使われる文字列
     public String getUrlName() {
-        return "Performance Analysis";
+        return "PerformanceAnalysis";
     }
 
     /**
