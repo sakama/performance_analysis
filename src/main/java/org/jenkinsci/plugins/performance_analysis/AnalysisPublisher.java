@@ -1,18 +1,19 @@
 package org.jenkinsci.plugins.performance_analysis;
 
+import hudson.Util;
+import java.io.File;
 import hudson.FilePath;
 import hudson.Launcher;
+import hudson.util.FormValidation;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
 import hudson.model.Descriptor;
-import hudson.model.Result;
 import hudson.tasks.Publisher;
 import hudson.tasks.BuildStepMonitor;
 import org.kohsuke.stapler.DataBoundConstructor;
-
+import org.kohsuke.stapler.QueryParameter;
 import java.io.IOException;
-
-import org.kohsuke.stapler.StaplerRequest;
+import javax.servlet.ServletException;
 
 /**
  * 
@@ -22,13 +23,10 @@ public class AnalysisPublisher extends Publisher {
     
     private final String ptpath;
 
+    @SuppressWarnings("deprecation")
     @DataBoundConstructor
     public AnalysisPublisher(String ptpath) {
         this.ptpath = ptpath;
-    }
-    
-    public String getPtpath() {
-        return this.ptpath;
     }
 
     /**
@@ -43,6 +41,10 @@ public class AnalysisPublisher extends Publisher {
         build.addAction(act);
 
         return true;
+    }
+    
+    public String getPtpath() {
+        return this.ptpath;
     }
 
     public Descriptor<Publisher> getDescriptor() {
@@ -59,6 +61,24 @@ public class AnalysisPublisher extends Publisher {
         @Override
         public String getDisplayName() {
             return "Performance Analysis";
+        }
+        
+        /**
+         * Form Validation
+         */
+        public FormValidation doCheckPtpath(@QueryParameter String ptpath) throws IOException, ServletException {
+            if (ptpath.length() == 0) {
+                return FormValidation.error("パスが入力されていません。");
+            }
+            
+            File objFile = new File(ptpath);
+            if(!objFile.exists()) {
+                return FormValidation.error("ディレクトリが存在しません。");
+            } else if(!objFile.canRead()) {
+                return FormValidation.error("ディレクトリに読み取り権限がありません。");
+            }
+            
+            return FormValidation.ok();
         }
     }
 
