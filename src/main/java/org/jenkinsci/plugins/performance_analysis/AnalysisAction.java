@@ -10,6 +10,7 @@ import java.util.List;
 
 public class AnalysisAction implements Action {
 
+    @SuppressWarnings("unused") 
     private static final long serialVersionUID = 1L;
 
     // 画面閲覧権限
