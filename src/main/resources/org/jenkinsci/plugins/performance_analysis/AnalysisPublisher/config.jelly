@@ -3,7 +3,7 @@
     設定画面に表示される設定欄
     Percona-Toolkitのpt-query-digestコマンドの実行結果ファイルのパスを入力させる
   -->
-  <f:section title="Percona-Toolkitのpt-query-digestコマンドの実行結果ファイル">
+  <f:section title="Percona-Toolkitのpt-query-digestコマンドの実行結果ファイルが格納されているディレクトリ">
     <f:entry title="" field="ptpath">
       <f:textbox />
     </f:entry>
