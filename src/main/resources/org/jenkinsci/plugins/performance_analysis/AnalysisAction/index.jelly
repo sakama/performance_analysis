@@ -6,8 +6,85 @@
       <link rel="stylesheet" href="/plugin/performance_analysis/script/jqplot/jquery.jqplot.css" />
       <script type="text/javascript" src="/plugin/performance_analysis/script/jquery.min.js"></script>
       <script type="text/javascript" src="/plugin/performance_analysis/script/jqplot/jquery.jqplot.min.js"></script>
-      <div id="pa-container">
-          ${it.ptdump}
+      <div id="pt-container">
+          <h1>MySQL Slow Query Logの概要</h1>
+          <j:forEach var="summary" items="${it.ptdump}">
+              <j:if test="${summary.qindex=='1'}">
+              <h2>全体の概要</h2>
+              <div id="global-summary">
+                  <table>
+                      <tr>
+                          <th>ホスト名</th>
+                          <td>${summary.global_hostname}</td>
+                      </tr>
+                      <tr>
+                          <th>測定日時</th>
+                          <td>${summary.global_current_date}</td>
+                      </tr>
+                      <tr>
+                          <th>QPS</th>
+                          <td>${summary.global_qps}</td>
+                      </tr>
+                      <tr>
+                          <th>Total</th>
+                          <td>${summary.global_total}</td>
+                      </tr>
+                      <tr>
+                          <th>Unique</th>
+                          <td>${summary.global_unique}</td>
+                      </tr>
+                      <tr>
+                          <th>Concurrency</th>
+                          <td>${summary.global_concurrency}</td>
+                      </tr>
+                  </table>
+              </div>
+              <hr />
+              <h2>各クエリの概要</h2>
+              </j:if>
+              
+              <div id="id_${summary.id}" style="margin-bottom:20px;">
+                  <table>
+                      <tr>
+                          <th>No.${summary.qindex}</th>
+                          <td colspan="3"><pre>${summary.query}</pre></td>
+                      </tr>
+                      <tr>
+                          <th>QPS</th>
+                          <td>${summary.qps}query/s</td>
+                          <th>期間</th>
+                          <td>${summary.time_range}</td>
+                      </tr>
+                      <tr>
+                          <th>諸情報</th>
+                          <td colspan="3">
+                              <table class="extra-info">
+                              <tr>
+                                  <th>属性</th>
+                                  <th>ログ全体に対する比率</th>
+                                  <th>Total</th>
+                                  <th>Min</th>
+                                  <th>Max</th>
+                                  <th>平均</th>
+                                  <th>95%</th>
+                                  <th>標準偏差</th>
+                                  <th>中央値</th>
+                              </tr>
+                              ${summary.metrics}
+                              </table>
+                          </td>
+                      </tr>
+                      <tr>
+                          <th>実行時間</th>
+                          <td colspan="3"><pre>${summary.qtime}</pre></td>
+                      </tr>
+                      <tr style="display:none;">
+                          <th>ダンプ</th>
+                          <td colspan="3"><pre>${summary.dump}</pre></td>
+                      </tr>
+                  </table>
+              </div>
+          </j:forEach>
       </div>
     </l:main-panel>
   </l:layout>
