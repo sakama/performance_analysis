@@ -34,7 +34,7 @@ public class AnalysisPublisher extends Publisher {
      */
     @Override
     public boolean perform(AbstractBuild build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
-        AnalysisAction act = new AnalysisAction(build);
+        AnalysisAction act = new AnalysisAction(build, this.getPtpath());
 
         // ビルド結果にAnalysisActionインスタンスを追加
         // build.xmlにシリアライズされて保存される
@@ -65,6 +65,7 @@ public class AnalysisPublisher extends Publisher {
         
         /**
          * Form Validation
+         * @TODO バリデーションエラーの警告は出るが保存できてしまう
          */
         public FormValidation doCheckPtpath(@QueryParameter String ptpath) throws IOException, ServletException {
             if (ptpath.length() == 0) {
