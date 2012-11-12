@@ -77,11 +77,11 @@ public class SqlDigestParser {
                 summary.qtime = m5.group(1).replaceAll("\n", "<br />");
             }
 
-            // SQL文を抜き出し
+            // SQL文の取得
             String[] rowArray = queryBlock.split("\n");
             summary.query = rowArray[rowArray.length-1];
             
-            //Hostname
+            // Hostnameの取得
             String regexLine6 = "# Hostname: (.*)";
             Pattern p6 = Pattern.compile(regexLine6);
             Matcher m6 = p6.matcher(dump);
@@ -89,7 +89,7 @@ public class SqlDigestParser {
                 summary.global_hostname = m6.group(1);
             }
             
-            //測定日時
+            // 測定日時の取得
             String regexLine7 = "# Current date: (.*)";
             Pattern p7 = Pattern.compile(regexLine7);
             Matcher m7 = p7.matcher(dump);
@@ -97,7 +97,7 @@ public class SqlDigestParser {
                 summary.global_current_date = m7.group(1);
             }
             
-            //概要
+            // 概要の取得
             String regexLine8 = "# Overall: (.*) total, (.*) unique, (.*) QPS, (.*) concurrency.*";
             Pattern p8 = Pattern.compile(regexLine8);
             Matcher m8 = p8.matcher(dump);
@@ -129,15 +129,6 @@ public class SqlDigestParser {
         public Integer global_unique;
         public String global_qps;
         public String global_concurrency;
-    }
-    
-    public class globalSqlSummary {
-        public String hostname;
-        public String current_date;
-        public Integer total;
-        public Integer unique;
-        public String qps;
-        public String concurrency;
     }
 
     public String makeMetrics(String metricsdump) {
