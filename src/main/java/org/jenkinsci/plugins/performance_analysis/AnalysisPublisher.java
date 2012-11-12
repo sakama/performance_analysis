@@ -1,8 +1,11 @@
 package org.jenkinsci.plugins.performance_analysis;
 
-import hudson.Util;
 import java.io.File;
-import hudson.FilePath;
+import java.io.IOException;
+import javax.servlet.ServletException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import hudson.Launcher;
 import hudson.util.FormValidation;
 import hudson.model.AbstractBuild;
@@ -12,8 +15,6 @@ import hudson.tasks.Publisher;
 import hudson.tasks.BuildStepMonitor;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
-import java.io.IOException;
-import javax.servlet.ServletException;
 
 /**
  * 
@@ -22,6 +23,9 @@ import javax.servlet.ServletException;
 public class AnalysisPublisher extends Publisher {
     
     private final String ptpath;
+    
+    /** Logger. */
+    private static final Logger LOGGER = Logger.getLogger(AnalysisPublisher.class.getName());
 
     @SuppressWarnings("deprecation")
     @DataBoundConstructor
