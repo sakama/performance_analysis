@@ -1,12 +1,10 @@
 package org.jenkinsci.plugins.performance_analysis;
 
+import java.util.List;
+import java.util.logging.Logger;
+
 import hudson.model.AbstractBuild;
 import hudson.model.Action;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.jenkinsci.plugins.performance_analysis.SqlDigestParser.SqlSummary;
 
