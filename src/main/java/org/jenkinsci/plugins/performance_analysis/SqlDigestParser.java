@@ -9,7 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Percona-Toolkitのpt-query-digest --explainコマンドの実行結果ファイルをパースし、 配列に落とす
+ * Percona-Toolkitのpt-query-digest --explainコマンドの実行結果ファイルをパースし、 リストで返す
  * 
  * @author Satoshi Akama
  */
@@ -27,7 +27,7 @@ public class SqlDigestParser {
     /**
      * Percona-Toolkitの結果ファイルをパースする
      * 
-     * @TODO 結果ファイルをコピーして過去のビルド履歴が見られるようにする
+     * TODO 結果ファイルをコピーして過去のビルド履歴が見られるようにする
      */
     public List<SqlSummary> getResult() {
         String ptdump = this.readFile();

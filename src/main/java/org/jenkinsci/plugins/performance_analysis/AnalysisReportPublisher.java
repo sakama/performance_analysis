@@ -7,17 +7,22 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import hudson.Launcher;
+import hudson.Util;
 import hudson.util.FormValidation;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
 import hudson.model.Descriptor;
 import hudson.tasks.Publisher;
 import hudson.tasks.BuildStepMonitor;
+import net.sf.json.JSONObject;
+
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
+import org.kohsuke.stapler.StaplerRequest;
 
 /**
- * 
+ * 管理画面「ビルド後の処理」のプルダウンに出てくる。
+ * 実際の処理はActionクラスが担当する
  * @author Satoshi Akama
  */
 public class AnalysisReportPublisher extends Publisher {
