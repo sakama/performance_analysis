@@ -37,7 +37,7 @@ PerlベースのツールなのでPerlがインストールされていること
 Percona-Toolkitの[pt-query-digest](http://www.percona.com/doc/percona-toolkit/2.1/pt-query-digest.html)コマンドの結果をファイルに保存してください。
 コマンドオプションがいろいろありますが、--explainオプションのみを推奨します。その他のフォーマットの場合、ファイルのパースに失敗する可能性があります。
 
-なおSlow query logを出力したくない場合、]tcpdumpの結果を食べさせることもできるようです。
+なおSlow query logを出力したくない場合、tcpdumpの結果を食べさせることもできるようです。
 
     pt-query-digest --explain /path/to/slow_query_log.log h=localhost,u=username,p=password > result.txt            
 
@@ -48,7 +48,7 @@ Jenkins上で以下の操作を行ってください。
 
 1. プロジェクトの設定画面を開きます。
 2. 「ビルド後の処理」のプルダウンからPerformance Analysisを選択
-3. pt-query-digestコマンド実行結果が保存されているディレクトリのパスを入力
+3. pt-query-digestコマンド実行結果ファイルが保存されているディレクトリのパスを入力
 4. 保存
 
 ビルドを実行すると各回のビルド結果の左メニュー等にPerformance Analysisの解析結果へのリンクが出てきているはず！
