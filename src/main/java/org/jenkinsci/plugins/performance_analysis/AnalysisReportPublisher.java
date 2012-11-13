@@ -45,7 +45,7 @@ public class AnalysisReportPublisher extends Publisher {
     public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
         AnalysisReportAction act = new AnalysisReportAction(build, this.getPtpath());
 
-        // ビルド結果にAnalysisActionインスタンスを追加
+        // ビルド結果にAnalysisReportActionインスタンスを追加
         // build.xmlにシリアライズされて保存される
         build.addAction(act);
         LOGGER.log(Level.SEVERE, "Result was successfully saved.");
