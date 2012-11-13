@@ -7,6 +7,11 @@ import hudson.model.Action;
 
 import org.jenkinsci.plugins.performance_analysis.SqlDigestParser.SqlSummary;
 
+/**
+ * ビルド後のレポート作成処理を行う
+ * 
+ * @author Satoshi Akama
+ */
 public class AnalysisReportAction implements Action {
 
     @SuppressWarnings("unused")
