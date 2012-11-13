@@ -6,9 +6,12 @@
 任意のMySQL Slow Query LogのSummaryをJenkinsのレポートとして表示できるプラグインです。
 
 
+
 # How to install #
 
 ----------
+
+公式プラグインではないので以下の手順でパッケージ化した後、Jenkinsの管理画面からアップロードしてください。
 
     mvn clean package
     
@@ -30,6 +33,25 @@ PerlベースのツールなのでPerlがインストールされていること
 # How to use #
 
 ----------
+
+Percona-Toolkitのpt-query-digestコマンドの結果をファイルに保存してください。
+コマンドオプションがいろいろありますが、--explainオプションのみを推奨します。その他のフォーマットの場合、ファイルのパースに失敗する可能性があります。
+
+なおSlow query logを出力したくない場合、tcpdumpの結果を食べさせることもできるようです。
+
+    pt-query-digest --explain /path/to/slow_query_log.log h=localhost,u=username,p=password > result.txt
+
+上記で取得した結果をsftpなどの方法でJenkinsサーバ上の任意の場所へDLしてください。
+パーミッションはjenkinsユーザが読み取り可能である必要があります。
+
+Jenkins上で以下の操作を行ってください。
+
+1. プロジェクトの設定画面を開きます。
+2. 「ビルド後の処理」のプルダウンからPerformance Analysisを選択
+3. pt-query-digestコマンド実行結果が保存されているディレクトリのパスを入力
+4. 保存
+
+ビルドを実行すると各回のビルド結果の左メニュー等にPerformance Analysisの解析結果へのリンクが出てきているはず！
 
 
 
