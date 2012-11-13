@@ -34,7 +34,7 @@ public class SqlDigestParser {
         return this.parseResult(ptdump);
     }
 
-    public List<SqlSummary> parseResult(String dump) {
+    private List<SqlSummary> parseResult(String dump) {
         List<SqlSummary> result = new ArrayList<SqlSummary>();
         // クエリ解析結果のブロックを抽出
         String regex = "(# Query [0-9]{1,3}.*?)(\n\n|\n$)";
@@ -131,7 +131,7 @@ public class SqlDigestParser {
         public String global_concurrency;
     }
 
-    public String makeMetrics(String metricsdump) {
+    private String makeMetrics(String metricsdump) {
         String metrics = "";
 
         String regex = "(# .*?)\n";
@@ -173,7 +173,7 @@ public class SqlDigestParser {
      * 
      * @return
      */
-    public String readFile() {
+    private String readFile() {
         String ptdump = "";
         try {
             File file = new File(this.ptpath);
