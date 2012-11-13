@@ -37,12 +37,13 @@ public class AnalysisPublisher extends Publisher {
      * ビルド後に実施する処理を記述
      */
     @Override
-    public boolean perform(AbstractBuild build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
+    public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
         AnalysisAction act = new AnalysisAction(build, this.getPtpath());
 
         // ビルド結果にAnalysisActionインスタンスを追加
         // build.xmlにシリアライズされて保存される
         build.addAction(act);
+        LOGGER.log(Level.SEVERE, "Result was successfully saved.");
 
         return true;
     }

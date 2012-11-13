@@ -1,7 +1,6 @@
 package org.jenkinsci.plugins.performance_analysis;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import hudson.model.AbstractBuild;
 import hudson.model.Action;
@@ -10,11 +9,8 @@ import org.jenkinsci.plugins.performance_analysis.SqlDigestParser.SqlSummary;
 
 public class AnalysisAction implements Action {
 
-    @SuppressWarnings("unused") 
+    @SuppressWarnings("unused")
     private static final long serialVersionUID = 1L;
-    
-    /** Logger. */
-    private static final Logger LOGGER = Logger.getLogger(AnalysisAction.class.getName());
 
     // 画面閲覧権限
     private AbstractBuild<?, ?> owner;
