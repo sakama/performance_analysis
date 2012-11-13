@@ -75,7 +75,27 @@ public class AnalysisReportPublisher extends Publisher {
         
         /**
          * Form Validation
-         * @TODO バリデーションエラーの警告は出るが保存できてしまう
+         * 画面保存時に呼ばれる。フォーム要素のonblur時のバリデーションは別途必要
+         */
+        @Override
+        public Publisher newInstance(StaplerRequest req, JSONObject formData) throws FormException {
+            String ptpath = Util.fixEmptyAndTrim(formData.getString("ptpath"));
+            if (ptpath == null || ptpath.length() == 0) {
+                throw new FormException("パスが入力されていません。", "ptpath");
+            }
+            File objFile = new File(ptpath);
+            if(!objFile.exists()) {
+                throw new FormException("ディレクトリが存在しません。", "ptpath");
+            } else if(!objFile.canRead()) {
+                throw new FormException("ディレクトリに読み取り権限がありません。", "ptpath");
+            }
+            
+            return super.newInstance(req, formData);
+        }
+        
+        /**
+         * Form Validation
+         * フォーム要素のonblur時に呼ばれる。画面保存時のバリデーションは別途必要
          */
         public FormValidation doCheckPtpath(@QueryParameter String ptpath) throws IOException, ServletException {
             if (ptpath.length() == 0) {
