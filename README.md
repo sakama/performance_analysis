@@ -34,12 +34,12 @@ PerlベースのツールなのでPerlがインストールされていること
 
 ----------
 
-Percona-Toolkitのpt-query-digestコマンドの結果をファイルに保存してください。
+Percona-Toolkitの[pt-query-digest](http://www.percona.com/doc/percona-toolkit/2.1/pt-query-digest.html)コマンドの結果をファイルに保存してください。
 コマンドオプションがいろいろありますが、--explainオプションのみを推奨します。その他のフォーマットの場合、ファイルのパースに失敗する可能性があります。
 
-なおSlow query logを出力したくない場合、tcpdumpの結果を食べさせることもできるようです。
+なおSlow query logを出力したくない場合、]tcpdumpの結果を食べさせることもできるようです。
 
-    pt-query-digest --explain /path/to/slow_query_log.log h=localhost,u=username,p=password > result.txt
+    pt-query-digest --explain /path/to/slow_query_log.log h=localhost,u=username,p=password > result.txt            
 
 上記で取得した結果をsftpなどの方法でJenkinsサーバ上の任意の場所へDLしてください。
 パーミッションはjenkinsユーザが読み取り可能である必要があります。
@@ -60,7 +60,7 @@ Jenkins上で以下の操作を行ってください。
 ----------
 
     mvn hpi:run
-でローカルのJettyサーバ上でJenkinsが動作します。http://localhost:8000にアクセスして下さい。
+でローカルのJettyサーバ上でJenkinsが動作します。http://localhost:8080にアクセスして下さい。既にスタンドアローンのJenkinsをインストールしていたりして8080番ポートが使用されている場合、実行できずにエラーとなります。
 
 ## License ##
 
