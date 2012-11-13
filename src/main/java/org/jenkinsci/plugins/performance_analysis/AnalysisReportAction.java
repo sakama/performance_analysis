@@ -7,7 +7,7 @@ import hudson.model.Action;
 
 import org.jenkinsci.plugins.performance_analysis.SqlDigestParser.SqlSummary;
 
-public class AnalysisAction implements Action {
+public class AnalysisReportAction implements Action {
 
     @SuppressWarnings("unused")
     private static final long serialVersionUID = 1L;
@@ -16,7 +16,7 @@ public class AnalysisAction implements Action {
     private AbstractBuild<?, ?> owner;
     private String ptpath;
 
-    public AnalysisAction(AbstractBuild<?, ?> owner, String ptpath) {
+    public AnalysisReportAction(AbstractBuild<?, ?> owner, String ptpath) {
         this.owner = owner;
         this.ptpath = ptpath;
     }

@@ -20,16 +20,16 @@ import org.kohsuke.stapler.QueryParameter;
  * 
  * @author Satoshi Akama
  */
-public class AnalysisPublisher extends Publisher {
+public class AnalysisReportPublisher extends Publisher {
     
     private final String ptpath;
     
     /** Logger. */
-    private static final Logger LOGGER = Logger.getLogger(AnalysisPublisher.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AnalysisReportPublisher.class.getName());
 
     @SuppressWarnings("deprecation")
     @DataBoundConstructor
-    public AnalysisPublisher(String ptpath) {
+    public AnalysisReportPublisher(String ptpath) {
         this.ptpath = ptpath;
     }
 
@@ -38,7 +38,7 @@ public class AnalysisPublisher extends Publisher {
      */
     @Override
     public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
-        AnalysisAction act = new AnalysisAction(build, this.getPtpath());
+        AnalysisReportAction act = new AnalysisReportAction(build, this.getPtpath());
 
         // ビルド結果にAnalysisActionインスタンスを追加
         // build.xmlにシリアライズされて保存される
@@ -60,7 +60,7 @@ public class AnalysisPublisher extends Publisher {
 
     public static final class DescriptorImpl extends Descriptor<Publisher> {
         DescriptorImpl() {
-            super(AnalysisPublisher.class);
+            super(AnalysisReportPublisher.class);
         }
 
         @Override
