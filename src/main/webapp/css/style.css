@@ -94,6 +94,7 @@ table settings
     text-align:left;
 }
 #pt-container th {
+    width:80px;
     font-weight:normal;
     color: #678197;
     text-align:left;
@@ -103,6 +104,9 @@ table settings
     background:#f4f9fe;
     color:#66a3d3;
     font:bold 1.2em/2em "Century Gothic","Trebuchet MS",Arial,Helvetica,sans-serif;
+}
+#pt-container th th {
+    width:auto;
 }
 #pt-container thead th {
     background:#f4f9fe;
