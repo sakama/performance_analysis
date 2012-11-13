@@ -8,7 +8,7 @@ import hudson.util.FormValidation;
 import java.io.IOException;
 import javax.servlet.ServletException;
 
-public class AnalysisPublisherTest {
+public class AnalysisReportPublisherTest {
 
     @Test
     public void doCheckPtpathTest() throws IOException, ServletException {
