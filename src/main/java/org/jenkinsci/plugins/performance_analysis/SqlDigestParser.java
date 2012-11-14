@@ -25,8 +25,7 @@ public class SqlDigestParser {
     }
 
     /**
-     * Percona-Toolkitの結果ファイルをパースする
-     * 
+     * コマンド実行結果ファイルのパース結果をリストで返す
      * TODO 結果ファイルをコピーして過去のビルド履歴が見られるようにする
      */
     public List<SqlSummary> getResult() {
@@ -34,45 +33,38 @@ public class SqlDigestParser {
         return this.parseResult(ptdump);
     }
 
+    /**
+     * Percona-Toolkitの結果ファイルをパースする
+     */
     private List<SqlSummary> parseResult(String dump) {
         List<SqlSummary> result = new ArrayList<SqlSummary>();
         // クエリ解析結果のブロックを抽出
-        String regex = "(# Query [0-9]{1,3}.*?)(\n\n|\n$)";
-        Pattern p = Pattern.compile(regex, Pattern.MULTILINE | Pattern.DOTALL);
-        Matcher m = p.matcher(dump);
+        Matcher m = this.getMatches("(# Query [0-9]{1,3}.*?)(\n\n|\n$)", dump, true);
         
         while (m.find()) {
             // ID及びクエリ番号を取得
             SqlSummary summary = new SqlSummary();
             String queryBlock = m.group(1);
             summary.dump = queryBlock;
-            String regexLine = "# Query ([0-9]{1,3}): (.+?) QPS.+?, ID(.+?) ";
-            Pattern p2 = Pattern.compile(regexLine);
-            Matcher m2 = p2.matcher(queryBlock);
+            Matcher m2 = this.getMatches("# Query ([0-9]{1,3}): (.+?) QPS.+?, ID(.+?) ", queryBlock, false);
             while (m2.find()) {
                 summary.qindex = this.parseInt(m2.group(1));
                 summary.qps = m2.group(2);
                 summary.id = m2.group(3);
             }
             // Time rangeを取得
-            String regexLine3 = "# Time range: (.*)";
-            Pattern p3 = Pattern.compile(regexLine3);
-            Matcher m3 = p3.matcher(queryBlock);
+            Matcher m3 = this.getMatches("# Time range: (.*)", queryBlock, false);
             if (m3.find()) {
                 summary.time_range = m3.group(1);
             }
             // 結果メトリクスを取得
-            String regexLine4 = "=======\n(# Count.*?)# String:";
-            Pattern p4 = Pattern.compile(regexLine4, Pattern.MULTILINE | Pattern.DOTALL);
-            Matcher m4 = p4.matcher(queryBlock);
+            Matcher m4 = this.getMatches("=======\n(# Count.*?)# String:", queryBlock, true);
             if (m4.find()) {
                 String metrics = this.makeMetrics(m4.group(1));
                 summary.metrics = metrics;
             }
             // Query_timeを取得
-            String regexLine5 = "# Query_time distribution\n(.*?)\n([^#]|# Tables)";
-            Pattern p5 = Pattern.compile(regexLine5, Pattern.MULTILINE | Pattern.DOTALL);
-            Matcher m5 = p5.matcher(queryBlock);
+            Matcher m5 = this.getMatches("# Query_time distribution\n(.*?)\n([^#]|# Tables)", dump, true);
             if (m5.find()) {
                 summary.qtime = m5.group(1).replaceAll("\n", "<br />");
             }
@@ -80,27 +72,21 @@ public class SqlDigestParser {
             // SQL文の取得
             String[] rowArray = queryBlock.split("\n");
             summary.query = rowArray[rowArray.length-1];
-            
+
             // Hostnameの取得
-            String regexLine6 = "# Hostname: (.*)";
-            Pattern p6 = Pattern.compile(regexLine6);
-            Matcher m6 = p6.matcher(dump);
+            Matcher m6 = this.getMatches("# Hostname: (.*)", dump, false);
             if (m6.find()) {
                 summary.global_hostname = m6.group(1);
             }
             
             // 測定日時の取得
-            String regexLine7 = "# Current date: (.*)";
-            Pattern p7 = Pattern.compile(regexLine7);
-            Matcher m7 = p7.matcher(dump);
+            Matcher m7 = this.getMatches("# Current date: (.*)", dump, false);
             if (m7.find()) {
                 summary.global_current_date = m7.group(1);
             }
             
             // 概要の取得
-            String regexLine8 = "# Overall: (.*) total, (.*) unique, (.*) QPS, (.*) concurrency.*";
-            Pattern p8 = Pattern.compile(regexLine8);
-            Matcher m8 = p8.matcher(dump);
+            Matcher m8 = this.getMatches("# Overall: (.*) total, (.*) unique, (.*) QPS, (.*) concurrency.*", dump, false);
             if (m8.find()) {
                 summary.global_total = this.parseInt(m8.group(1));
                 summary.global_unique = this.parseInt(m8.group(2));
@@ -133,12 +119,9 @@ public class SqlDigestParser {
 
     private String makeMetrics(String metricsdump) {
         String metrics = "";
-
-        String regex = "(# .*?)\n";
-        Pattern p = Pattern.compile(regex, Pattern.MULTILINE | Pattern.DOTALL);
-        Matcher m = p.matcher(metricsdump);
-        Integer count = 0;
         String[] colArray = { "Count", "Exec time", "Lock time", "Rows sent", "Rows examine", "Query size" };
+        Integer count = 0;
+        Matcher m = this.getMatches("(# .*?)\n", metricsdump, true);
         while (m.find()) {
             String row = m.group(1).replaceAll("(# .*?)\\s{1,12}", "");
             if (count == 0) {
@@ -191,6 +174,20 @@ public class SqlDigestParser {
             LOGGER.log(Level.SEVERE, "File can not readable", e);
         }
         return ptdump;
+    }
+    
+    /**
+     * 正規表現による項目抽出を行う
+     */
+    private Matcher getMatches(String regex, String target, Boolean isMultiline) {
+        Pattern pattern;
+        if(isMultiline==true) {
+            pattern = Pattern.compile(regex, Pattern.MULTILINE | Pattern.DOTALL);
+        } else {
+            pattern = Pattern.compile(regex);
+        }
+        Matcher match = pattern.matcher(target);
+        return match;
     }
 
     private Integer parseInt(String number) {
