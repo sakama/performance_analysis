@@ -68,6 +68,9 @@ table settings
     margin:1em auto;
     border-collapse:collapse;
 }
+#pt-container table.query-block {
+    margin-bottom:40px;
+}
 #pt-container caption {
     color: #9ba9b4;
     font-size:.94em;
@@ -101,7 +104,7 @@ table settings
     border-bottom: 1px solid #cccccc;
     border-left:1px solid #cccccc;
     padding:.3em 1em;
-    background:#f4f9fe;
+    background:#eeeeee;
     color:#66a3d3;
     font:bold 1.2em/2em "Century Gothic","Trebuchet MS",Arial,Helvetica,sans-serif;
 }
@@ -112,11 +115,11 @@ table settings
     background:#f4f9fe;
     text-align:center;
     font:bold 1.2em/2em "Century Gothic","Trebuchet MS",Arial,Helvetica,sans-serif;
-    color:#66a3d3;
+    color:#eeeeee;
 }
 #pt-contaner tfoot th {
     text-align:center;
-    background:#f4f9fe;
+    background:#eeeeee;
 }
 #pt-contaner tfoot th strong {
     font:bold 1.2em "Century Gothic","Trebuchet MS",Arial,Helvetica,sans-serif;
@@ -128,4 +131,34 @@ table settings
     font-weight: bold;
     font-size: 1.1em;
     font-style: normal;
+}
+#pt-container td.explain-block {
+    text-align:left;
+}
+#pt-container table.explain-info {
+    margin:1em 10px;
+    width:950px;
+}
+#pt-container table.explain-info th,
+#pt-container table.explain-info td {
+    width:auto;
+    padding:5px;
+}
+#pt-container table td.query {
+    font-size:1.3em;
+    line-height:1.5em;
+}
+#pt-container table.explain-info th,
+#pt-container table.extra-info th {
+    background:#eeeeee;
+}
+#pt-container #query-link {
+    margin:20px 10px;
+}
+#pt-container #query-link th {
+    background:#f0f0f0;
+}
+#pt-container #query-link th a:link,
+#pt-container #query-link th a:hover {
+    text-decoration:underline;
 }

@@ -8,6 +8,7 @@
       <script type="text/javascript" src="/plugin/performance_analysis/script/jqplot/jquery.jqplot.min.js"></script>
       <div id="pt-container">
           <h1>MySQL Slow Query Logの概要</h1>
+         
           <j:forEach var="summary" items="${it.ptdump}">
               <j:if test="${summary.qindex=='1'}">
               <h2>全体の概要</h2>
@@ -42,12 +43,31 @@
               <hr />
               <h2>各クエリの概要</h2>
               </j:if>
-              
+          </j:forEach>
+          
+          <table id="query-link">
+          <j:forEach var="summary" items="${it.ptdump}">
+              <tr>
+                  <th><a href="#id_${summary.id}">No.${summary.qindex}</a></th>
+                  <td>${summary.short_query}</td>
+              </tr>
+          </j:forEach>
+          </table>
+          
+          <j:forEach var="summary" items="${it.ptdump}">
               <div id="id_${summary.id}" style="margin-bottom:20px;">
-                  <table>
+                  <table class="query-block">
                       <tr>
                           <th>No.${summary.qindex}</th>
-                          <td colspan="3"><pre>${summary.query}</pre></td>
+                          <td colspan="3" class="query">${summary.query}</td>
+                      </tr>
+                      <tr>
+                          <th>EXPLAIN</th>
+                          <td colspan="3" class="explain-block">
+                              <table class="explain-info">
+                                  ${summary.explain}
+                              </table>
+                          </td>
                       </tr>
                       <tr>
                           <th>QPS</th>
