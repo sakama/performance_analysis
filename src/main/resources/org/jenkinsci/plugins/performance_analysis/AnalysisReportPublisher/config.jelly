@@ -8,4 +8,27 @@
       <f:textbox />
     </f:entry>
   </f:section>
+  <!--
+  <f:entry name="language" title="Language">
+    <select name="language">
+        <j:set var="lang" value="${instance.language}" />
+        <j:choose>
+          <j:when test="${lang == 'english'}">
+            <option value="english" selected="selected">English</option>
+          </j:when>
+          <j:otherwise>
+            <option value="english">English</option>
+          </j:otherwise>
+        </j:choose>
+        <j:choose>
+          <j:when test="${lang == 'japanese'}">
+            <option value="japanese" selected="selected">日本語</option>
+          </j:when>
+          <j:otherwise>
+            <option value="japanese">日本語</option>
+          </j:otherwise>
+        </j:choose>
+    </select>
+  </f:entry>
+  -->
 </j:jelly>

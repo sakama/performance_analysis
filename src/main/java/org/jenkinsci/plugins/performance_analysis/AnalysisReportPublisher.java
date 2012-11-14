@@ -28,14 +28,16 @@ import org.kohsuke.stapler.StaplerRequest;
 public class AnalysisReportPublisher extends Publisher {
     
     private final String ptpath;
+    private final String language;
     
     /** Logger. */
     private static final Logger LOGGER = Logger.getLogger(AnalysisReportPublisher.class.getName());
 
     @SuppressWarnings("deprecation")
     @DataBoundConstructor
-    public AnalysisReportPublisher(String ptpath) {
-        this.ptpath = ptpath;
+    public AnalysisReportPublisher(String ptpath, String language) {
+        this.ptpath = Util.fixEmptyAndTrim(ptpath);
+        this.language = Util.fixEmptyAndTrim(language);
     }
 
     /**
@@ -55,6 +57,10 @@ public class AnalysisReportPublisher extends Publisher {
     
     public String getPtpath() {
         return this.ptpath;
+    }
+    
+    public String getLanguage() {
+        return this.language;
     }
 
     public Descriptor<Publisher> getDescriptor() {

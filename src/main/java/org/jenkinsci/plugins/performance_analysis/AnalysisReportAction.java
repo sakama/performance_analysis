@@ -25,6 +25,10 @@ public class AnalysisReportAction implements Action {
         this.owner = owner;
         this.ptpath = ptpath;
     }
+    
+    public void setPtpath(String ptpath) {
+        this.ptpath = ptpath;
+    }
 
     //左メニューの表示名
     public String getDisplayName() {
