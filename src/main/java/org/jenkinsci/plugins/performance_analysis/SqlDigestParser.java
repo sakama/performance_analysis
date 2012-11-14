@@ -1,5 +1,7 @@
 package org.jenkinsci.plugins.performance_analysis;
 
+import hudson.Util;
+
 import java.io.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -40,7 +42,7 @@ public class SqlDigestParser {
         List<SqlSummary> result = new ArrayList<SqlSummary>();
         // クエリ解析結果のブロックを抽出
         Matcher m = this.getMatches("(# Query [0-9]{1,3}.*?)(\n\n|\n$)", dump, true);
-        
+
         while (m.find()) {
             // ID及びクエリ番号を取得
             SqlSummary summary = new SqlSummary();
@@ -69,22 +71,18 @@ public class SqlDigestParser {
                 summary.qtime = m5.group(1).replaceAll("\n", "<br />");
             }
 
-            // SQL文の取得
-            String[] rowArray = queryBlock.split("\n");
-            summary.query = rowArray[rowArray.length-1];
-
             // Hostnameの取得
             Matcher m6 = this.getMatches("# Hostname: (.*)", dump, false);
             if (m6.find()) {
                 summary.global_hostname = m6.group(1);
             }
-            
+
             // 測定日時の取得
             Matcher m7 = this.getMatches("# Current date: (.*)", dump, false);
             if (m7.find()) {
                 summary.global_current_date = m7.group(1);
             }
-            
+
             // 概要の取得
             Matcher m8 = this.getMatches("# Overall: (.*) total, (.*) unique, (.*) QPS, (.*) concurrency.*", dump, false);
             if (m8.find()) {
@@ -92,6 +90,20 @@ public class SqlDigestParser {
                 summary.global_unique = this.parseInt(m8.group(2));
                 summary.global_qps = m8.group(3);
                 summary.global_concurrency = m8.group(4);
+            }
+
+            // SQL、Explain結果の取得
+            Matcher m9 = this.getMatches("# Tables.+?# EXPLAIN.+?\n(.*?)(#.*)", queryBlock, true);
+            if (m9.find()) {
+                summary.query = m9.group(1).replaceAll("\n", "<br />");
+                String short_query;
+                if (m9.group(1).length() >= 150) {
+                    short_query = m9.group(1).substring(0, 150) + "...";
+                } else {
+                    short_query = m9.group(1);
+                }
+                summary.short_query = short_query;
+                summary.explain = this.makeExplain(m9.group(2));
             }
 
             result.add(summary);
@@ -103,12 +115,14 @@ public class SqlDigestParser {
         public Integer qindex;
         public String id;
         public String query;
+        public String short_query;
+        public String explain;
         public String qps;
         public String time_range;
         public String metrics;
         public String qtime;
         public String dump;
-        //global
+        // global
         public String global_hostname;
         public String global_current_date;
         public Integer global_total;
@@ -117,6 +131,9 @@ public class SqlDigestParser {
         public String global_concurrency;
     }
 
+    /**
+     * 諸情報をtableに整形して返す
+     */
     private String makeMetrics(String metricsdump) {
         String metrics = "";
         String[] colArray = { "Count", "Exec time", "Lock time", "Rows sent", "Rows examine", "Query size" };
@@ -138,7 +155,7 @@ public class SqlDigestParser {
                         metrics += "<td>" + rowArray[i];
                     }
                 }
-                if(i==1) {
+                if (i == 1) {
                     metrics += "%";
                 }
                 metrics += "</td>";
@@ -149,6 +166,40 @@ public class SqlDigestParser {
             count++;
         }
         return metrics;
+    }
+
+    /**
+     * EXPLAIN結果をtableに整形して返す
+     */
+    private String makeExplain(String explain) {
+        String result = "";
+        explain += "\n# **";
+        Matcher m = this.getMatches("(.*?)\n# \\*", explain, true);
+        while (m.find()) {
+            String head = "";
+            String body = "";
+            String block = m.group(1).replaceAll("#|\\*", "");
+            String[] rowArray = block.split("\n");
+            // 行ごとに処理
+            for (int i = 0; i < rowArray.length; i++) {
+                if (i == 0) {
+                    continue;
+                }
+                String[] colArray = rowArray[i].split(": ");
+                for (int n = 0; n < colArray.length; n++) {
+                    if (n == 0) {
+                        head += "<th>" + Util.fixEmptyAndTrim(colArray[n]) + "</th>";
+                    } else {
+                        body += "<td>" + colArray[n] + "</td>";
+                    }
+                }
+                if (colArray.length == 1) {
+                    body += "<td>&nbsp;</td>";
+                }
+            }
+            result += "<tr>" + head + "</tr><tr>" + body + "</tr>";
+        }
+        return result;
     }
 
     /**
@@ -175,13 +226,13 @@ public class SqlDigestParser {
         }
         return ptdump;
     }
-    
+
     /**
      * 正規表現による項目抽出を行う
      */
     private Matcher getMatches(String regex, String target, Boolean isMultiline) {
         Pattern pattern;
-        if(isMultiline==true) {
+        if (isMultiline == true) {
             pattern = Pattern.compile(regex, Pattern.MULTILINE | Pattern.DOTALL);
         } else {
             pattern = Pattern.compile(regex);
