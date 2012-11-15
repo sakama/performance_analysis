@@ -50,7 +50,7 @@ public class AnalysisReportPublisher extends Publisher {
         // ビルド結果にAnalysisReportActionインスタンスを追加
         // build.xmlにシリアライズされて保存される
         build.addAction(act);
-        LOGGER.log(Level.SEVERE, "Result was successfully saved.");
+        LOGGER.log(Level.INFO, "Result was successfully saved.");
 
         return true;
     }
