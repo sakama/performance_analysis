@@ -20,10 +20,12 @@ public class AnalysisReportAction implements Action {
     // 画面閲覧権限
     private AbstractBuild<?, ?> owner;
     private String ptpath;
+    private List<SqlSummary> ptDump;
 
     public AnalysisReportAction(AbstractBuild<?, ?> owner, String ptpath) {
         this.owner = owner;
         this.ptpath = ptpath;
+        this.ptDump = this.getPtdump();
     }
     
     public void setPtpath(String ptpath) {
@@ -53,6 +55,9 @@ public class AnalysisReportAction implements Action {
     }
     
     public List<SqlSummary> getPtdump() {
+        if(this.ptDump!=null){
+            return this.ptDump;
+        }
         SqlDigestParser parser = new SqlDigestParser(this.ptpath);
         return parser.getResult();
     }
